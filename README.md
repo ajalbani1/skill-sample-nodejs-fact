@@ -26,7 +26,7 @@ npm deploy
 
 # To create a lambda function
 
-1. Go to the AW Console - Lambda: https://console.aws.amazon.com/lambda/
+1. Go to the AWS Console - Lambda: https://console.aws.amazon.com/lambda/
 2. Create function
 3. Give function name and choose `Create a new role with basic Lambda permissions`
 4. Create function

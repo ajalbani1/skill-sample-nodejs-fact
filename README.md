@@ -32,4 +32,4 @@ npm deploy
 2. Create New Skill
 3. Pick a Name: Choose "Custom" Skill type
 4. Pick Fact Skill
-5. Click Endpoint on the left-hand navigation and set the ARM to your own Lambda function ARN
+5. Click Endpoint on the left-hand navigation and set the ARN to your own Lambda function ARN

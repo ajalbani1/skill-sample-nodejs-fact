@@ -66,10 +66,10 @@ const RollDiceIntentHandler = {
             sattr.score = (sattr.score || 0) + roll;
             handlerInput.attributesManager.setSessionAttributes(sattr);
 
-            if (Util.isHighScore(sattr.score)) {
+            if (Util.isTopTen(sattr.score)) {
                 return handlerInput.responseBuilder
-                    .speak(`You rolled a ${roll}. You now have ${sattr.score} points.`)
-                    .reprompt(`Roll dice again?`)
+                    .speak(`You rolled a ${roll}. You now have ${sattr.score} points. Congratulations you have made to the top 10!`)
+                    .reprompt(`Would you like to save your name in our list of legends or continue to roll dice?`)
                     .getResponse();
             } else {
                 return handlerInput.responseBuilder

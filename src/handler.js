@@ -10,7 +10,7 @@ const AWS = require('aws-sdk');
 let config = {
     "reqion": "us-west-1",
 };
-AWS.config(config);
+AWS.config.update(config);
 
 var db = new AWS.DynamoDB.DocumentClient();
 

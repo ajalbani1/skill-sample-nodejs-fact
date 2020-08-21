@@ -14,11 +14,9 @@ const LaunchRequestHandler = {
     return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
   },
   handle(handlerInput) {
-    const speakOutput = handlerInput.t('WELCOME_MSG');
-
     return handlerInput.responseBuilder
         .speak(`Welcome to the Vegas Dice Game. Would you like to see the highscores or start a new game?`)
-        .reprompt(speakOutput)
+        .reprompt(`Are you there?`)
         .getResponse();
   }
 };

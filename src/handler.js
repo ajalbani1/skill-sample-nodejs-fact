@@ -58,10 +58,13 @@ const RollDiceIntentHandler = {
     handle(handlerInput) {
         const roll = Math.floor(Math.random() * 6) + 1;
         if (roll === 1) {
+            const sattr = handlerInput.attributesManager.getSessionAttributes();
+            sattr.score = 0;
+            handlerInput.attributesManager.setSessionAttributes(sattr);
+
             return handlerInput.responseBuilder
-                .speak(`You rolled a ${roll}. Game over.`)
+                .speak(`You rolled a ${roll}. Game over!`)
                 .withShouldEndSession(true)
-                .reprompt(`You rolled a ${roll}. Game over.`)
                 .getResponse();
         } else {
             const sattr = handlerInput.attributesManager.getSessionAttributes();

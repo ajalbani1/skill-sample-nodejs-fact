@@ -88,11 +88,12 @@ const RollDiceIntentHandler = {
 const YesIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'YesIntentHandler';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'YesIntent';
     },
     handle(handlerInput) {
         return handlerInput.responseBuilder
-            .speak(`You now are a vegas dice legend!.`)
+            .speak(`You now are a vegas dice legend! Goodbye!`)
+            .withShouldEndSession(true)
             // .reprompt(`Roll dice again?`)
             .getResponse();
     }
@@ -101,11 +102,12 @@ const YesIntentHandler = {
 const NoIntentHandler = {
     canHandle(handlerInput) {
         return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'NoIntentHandler';
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'NoIntent';
     },
     handle(handlerInput) {
         return handlerInput.responseBuilder
             .speak(`Ok let's continue.`)
+            //.reprompt(`Roll dice again?`)
             .reprompt(`Roll dice again?`)
             .getResponse();
     }

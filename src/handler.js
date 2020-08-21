@@ -69,7 +69,10 @@ const RollDiceIntentHandler = {
 
             if (Util.isTopTen(sattr.score)) {
                 return handlerInput.responseBuilder
-                    .speak(`You rolled a ${roll}. You now have ${sattr.score} points. Congratulations you have made to the top 10!`)
+                    .speak(`You rolled a ${roll}. You now have ${sattr.score} points. 
+                        Congratulations you have made to the top 10!
+                        Would you like to save your name in our list of legends or continue to roll dice?
+                    `)
                     .reprompt(`Would you like to save your name in our list of legends or continue to roll dice?`)
                     .getResponse();
             } else {

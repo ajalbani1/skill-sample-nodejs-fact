@@ -17,7 +17,7 @@ const LaunchRequestHandler = {
     const speakOutput = handlerInput.t('WELCOME_MSG');
 
     return handlerInput.responseBuilder
-        .speak(`Welcome the Vegas Dice Game. Would you like to see the highscores or start a new game?`)
+        .speak(`Welcome to the Vegas Dice Game. Would you like to see the highscores or start a new game?`)
         .reprompt(speakOutput)
         .getResponse();
   }

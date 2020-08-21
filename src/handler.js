@@ -1,4 +1,5 @@
 const Util = require('./Util');
+const highscores = require('./highscores');
 /* *
  * This sample demonstrates handling intents from an Alexa skill using the Alexa Skills Kit SDK (v2).
  * Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
@@ -80,6 +81,32 @@ const RollDiceIntentHandler = {
         }
     }
 };
+
+const YesIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'YesIntentHandler';
+    },
+    handle(handlerInput) {
+        return handlerInput.responseBuilder
+            .speak(`You now are a vegas dice legend!.`)
+            // .reprompt(`Roll dice again?`)
+            .getResponse();
+    }
+}
+
+const NoIntentHandler = {
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'NoIntentHandler';
+    },
+    handle(handlerInput) {
+        return handlerInput.responseBuilder
+            .speak(`Ok let's continue.`)
+            .reprompt(`Roll dice again?`)
+            .getResponse();
+    }
+}
 /***********************************/
 /***********************************/
 /***********************************/
@@ -206,6 +233,8 @@ exports.handler = Alexa.SkillBuilders.custom()
         LaunchRequestHandler,
         HighScoresIntentHandler,
         RollDiceIntentHandler,
+        YesIntentHandler,
+        NoIntentHandler,
         HelpIntentHandler,
         CancelAndStopIntentHandler,
         FallbackIntentHandler,

@@ -7,6 +7,10 @@ const highscores = require('./highscores');
  * */
 const Alexa = require('ask-sdk-core');
 const AWS = require('aws-sdk');
+let config = {
+    "reqion": "us-west-1",
+};
+AWS.config(config);
 
 var db = new AWS.DynamoDB.DocumentClient();
 

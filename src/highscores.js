@@ -1,50 +1,50 @@
 const highscores = [{
     name: "ali",
-    point: 12
+    point: 7
 }, {
     name: "aaron",
-    point: 11
+    point: 6
 }, {
     name: "aaron",
-    point: 11
+    point: 6
 }, {
     name: "aaron",
-    point: 11
+    point: 6
 }, {
     name: "aaron",
-    point: 11
+    point: 5
 }, {
     name: "aaron",
-    point: 11
+    point: 5
 }, {
     name: "aaron",
-    point: 11
+    point: 4
 }, {
     name: "aaron",
-    point: 10
+    point: 4
 }, {
     name: "aaron",
-    point: 10
+    point: 4
 }, {
     name: "aaron",
-    point: 10
+    point: 4
 }, {
     name: "aaron",
-    point: 10
+    point: 4
 }, {
     name: "aaron",
-    point: 10
+    point: 4
 }, {
     name: "aaron",
-    point: 10
+    point: 4
 }, {
     name: "aaron",
-    point: 9
+    point: 4
 }, {
     name: "aaron",
-    point: 9
+    point: 4
 }, {
     name: "aaron",
-    point: 9
+    point: 4
 }];
 module.exports = highscores;

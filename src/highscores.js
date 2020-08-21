@@ -1,0 +1,50 @@
+const highscores = [{
+    name: "ali",
+    point: 25
+}, {
+    name: "aaron",
+    point: 24
+}, {
+    name: "aaron",
+    point: 23
+}, {
+    name: "aaron",
+    point: 22
+}, {
+    name: "aaron",
+    point: 21
+}, {
+    name: "aaron",
+    point: 20
+}, {
+    name: "aaron",
+    point: 19
+}, {
+    name: "aaron",
+    point: 18
+}, {
+    name: "aaron",
+    point: 17
+}, {
+    name: "aaron",
+    point: 16
+}, {
+    name: "aaron",
+    point: 15
+}, {
+    name: "aaron",
+    point: 14
+}, {
+    name: "aaron",
+    point: 13
+}, {
+    name: "aaron",
+    point: 12
+}, {
+    name: "aaron",
+    point: 11
+}, {
+    name: "aaron",
+    point: 10
+}];
+module.exports = highscores;

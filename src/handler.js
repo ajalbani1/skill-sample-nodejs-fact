@@ -1,3 +1,4 @@
+const Util = require('./Util');
 /* *
  * This sample demonstrates handling intents from an Alexa skill using the Alexa Skills Kit SDK (v2).
  * Please visit https://alexa.design/cookbook for additional examples on implementing slots, dialog management,
@@ -10,96 +11,106 @@ const i18n = require('i18next');
 const languageStrings = require('./languageStrings');
 
 const LaunchRequestHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-        .speak(`Welcome to the Vegas Dice Game. Would you like to see the highscores or start a new game?`)
-        .reprompt(`Are you there?`)
-        .getResponse();
-  }
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'LaunchRequest';
+    },
+    handle(handlerInput) {
+        return handlerInput.responseBuilder
+            .speak(`Welcome to the Vegas Dice Game. Would you like to see the highscores or start a new game?`)
+            .reprompt(`Are you there?`)
+            .getResponse();
+    }
 };
 
 const HelloWorldIntentHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = handlerInput.t('HELLO_MSG');
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HelloWorldIntent';
+    },
+    handle(handlerInput) {
+        const speakOutput = handlerInput.t('HELLO_MSG');
 
-    return handlerInput.responseBuilder
-        .speak(speakOutput)
-        //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-        .getResponse();
-  }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .getResponse();
+    }
 };
 /******* VEGAS INTENTS ***************/
 const HighScoresIntentHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HighScoresIntent';
-  },
-  handle(handlerInput) {
-    return handlerInput.responseBuilder
-        .speak(`Ali tops with 52 points. Followed by Aaron at 51, Mark at 50, Luke at 49 and Matthew at 48 points`)
-        //.reprompt('Would you like to start a new game?')
-        .getResponse();
-  }
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'HighScoresIntent';
+    },
+    handle(handlerInput) {
+        return handlerInput.responseBuilder
+            .speak(highscores.map(s => `${s.name} has ${s.point} points`).join(', '))
+            .reprompt('Would you like to start a new game?')
+            .getResponse();
+    }
 };
 const RollDiceIntentHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RollDiceIntent';
-  },
-  handle(handlerInput) {
-    const roll =  Math.floor( Math.random() * 6 ) +1;
-    if(roll === 1) {
-      return handlerInput.responseBuilder
-          .speak(`You rolled a ${roll}. Game over.`)
-          //.reprompt(`You rolled a ${roll}. Game over.`)
-          .getResponse();
-    } else {
-      return handlerInput.responseBuilder
-          .speak(`You rolled a ${roll}. You now have ${roll} points.`)
-          //.reprompt(`You rolled a ${roll}. You now have ${roll} points.`)
-          .getResponse();
-    }
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'RollDiceIntent';
+    },
+    handle(handlerInput) {
+        const roll = Math.floor(Math.random() * 6) + 1;
+        if (roll === 1) {
+            return handlerInput.responseBuilder
+                .speak(`You rolled a ${roll}. Game over.`)
+                .reprompt(`You rolled a ${roll}. Game over.`)
+                .getResponse();
+        } else {
+            const sattr = handlerInput.attributesManager.getSessionAttributes();
+            sattr.score = (sattr.score || 0) + roll;
+            handlerInput.attributesManager.setSessionAttributes(sattr);
 
-  }
+            if (Util.isHighScore(sattr.score)) {
+                return handlerInput.responseBuilder
+                    .speak(`You rolled a ${roll}. You now have ${sattr.score} points.`)
+                    .reprompt(`Roll dice again?`)
+                    .getResponse();
+            } else {
+                return handlerInput.responseBuilder
+                    .speak(`You rolled a ${roll}. You now have ${sattr.score} points.`)
+                    .reprompt(`Roll dice again?`)
+                    .getResponse();
+            }
+        }
+    }
 };
 /***********************************/
 /***********************************/
 /***********************************/
 const HelpIntentHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = handlerInput.t('HELP_MSG');
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.HelpIntent';
+    },
+    handle(handlerInput) {
+        const speakOutput = handlerInput.t('HELP_MSG');
 
-    return handlerInput.responseBuilder
-        .speak(speakOutput)
-        .reprompt(speakOutput)
-        .getResponse();
-  }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(speakOutput)
+            .getResponse();
+    }
 };
 
 const CancelAndStopIntentHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
-            || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
-  },
-  handle(handlerInput) {
-    const speakOutput = handlerInput.t('GOODBYE_MSG');
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && (Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.CancelIntent'
+                || Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.StopIntent');
+    },
+    handle(handlerInput) {
+        const speakOutput = handlerInput.t('GOODBYE_MSG');
 
-    return handlerInput.responseBuilder
-        .speak(speakOutput)
-        .getResponse();
-  }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .getResponse();
+    }
 };
 /* *
  * FallbackIntent triggers when a customer says something that doesn’t map to any intents in your skill
@@ -107,18 +118,18 @@ const CancelAndStopIntentHandler = {
  * This handler can be safely added but will be ingnored in locales that do not support it yet
  * */
 const FallbackIntentHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
-        && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
-  },
-  handle(handlerInput) {
-    const speakOutput = handlerInput.t('FALLBACK_MSG');
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest'
+            && Alexa.getIntentName(handlerInput.requestEnvelope) === 'AMAZON.FallbackIntent';
+    },
+    handle(handlerInput) {
+        const speakOutput = handlerInput.t('FALLBACK_MSG');
 
-    return handlerInput.responseBuilder
-        .speak(speakOutput)
-        .reprompt(speakOutput)
-        .getResponse();
-  }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(speakOutput)
+            .getResponse();
+    }
 };
 /* *
  * SessionEndedRequest notifies that a session was ended. This handler will be triggered when a currently open
@@ -126,14 +137,14 @@ const FallbackIntentHandler = {
  * respond or says something that does not match an intent defined in your voice model. 3) An error occurs
  * */
 const SessionEndedRequestHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
-  },
-  handle(handlerInput) {
-    console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
-    // Any cleanup logic goes here.
-    return handlerInput.responseBuilder.getResponse(); // notice we send an empty response
-  }
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'SessionEndedRequest';
+    },
+    handle(handlerInput) {
+        console.log(`~~~~ Session ended: ${JSON.stringify(handlerInput.requestEnvelope)}`);
+        // Any cleanup logic goes here.
+        return handlerInput.responseBuilder.getResponse(); // notice we send an empty response
+    }
 };
 /* *
  * The intent reflector is used for interaction model testing and debugging.
@@ -141,18 +152,18 @@ const SessionEndedRequestHandler = {
  * by defining them above, then also adding them to the request handler chain below
  * */
 const IntentReflectorHandler = {
-  canHandle(handlerInput) {
-    return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
-  },
-  handle(handlerInput) {
-    const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
-    const speakOutput = handlerInput.t('REFLECTOR_MSG', {intentName: intentName});
+    canHandle(handlerInput) {
+        return Alexa.getRequestType(handlerInput.requestEnvelope) === 'IntentRequest';
+    },
+    handle(handlerInput) {
+        const intentName = Alexa.getIntentName(handlerInput.requestEnvelope);
+        const speakOutput = handlerInput.t('REFLECTOR_MSG', {intentName: intentName});
 
-    return handlerInput.responseBuilder
-        .speak(speakOutput)
-        //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
-        .getResponse();
-  }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            //.reprompt('add a reprompt if you want to keep the session open for the user to respond')
+            .getResponse();
+    }
 };
 /**
  * Generic error handling to capture any syntax or routing errors. If you receive an error
@@ -160,30 +171,30 @@ const IntentReflectorHandler = {
  * the intent being invoked or included it in the skill builder below
  * */
 const ErrorHandler = {
-  canHandle() {
-    return true;
-  },
-  handle(handlerInput, error) {
-    const speakOutput = handlerInput.t('ERROR_MSG');
-    console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
+    canHandle() {
+        return true;
+    },
+    handle(handlerInput, error) {
+        const speakOutput = handlerInput.t('ERROR_MSG');
+        console.log(`~~~~ Error handled: ${JSON.stringify(error)}`);
 
-    return handlerInput.responseBuilder
-        .speak(speakOutput)
-        .reprompt(speakOutput)
-        .getResponse();
-  }
+        return handlerInput.responseBuilder
+            .speak(speakOutput)
+            .reprompt(speakOutput)
+            .getResponse();
+    }
 };
 
 // This request interceptor will bind a translation function 't' to the handlerInput
 const LocalisationRequestInterceptor = {
-  process(handlerInput) {
-    i18n.init({
-      lng: Alexa.getLocale(handlerInput.requestEnvelope),
-      resources: languageStrings
-    }).then((t) => {
-      handlerInput.t = (...args) => t(...args);
-    });
-  }
+    process(handlerInput) {
+        i18n.init({
+            lng: Alexa.getLocale(handlerInput.requestEnvelope),
+            resources: languageStrings
+        }).then((t) => {
+            handlerInput.t = (...args) => t(...args);
+        });
+    }
 };
 /**
  * This handler acts as the entry point for your skill, routing all request and response

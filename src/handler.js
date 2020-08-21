@@ -17,7 +17,7 @@ const LaunchRequestHandler = {
     },
     handle(handlerInput) {
         return handlerInput.responseBuilder
-            .speak(`Welcome to the Vegas Dice Game. Would you like to see the highscores or start a new game?`)
+            .speak(`Welcome to the Vegas Dice Game. Would you like to see the highscores or roll dice?`)
             .reprompt(`Are you there?`)
             .getResponse();
     }
@@ -46,7 +46,7 @@ const HighScoresIntentHandler = {
     handle(handlerInput) {
         return handlerInput.responseBuilder
             .speak(highscores.map(s => `${s.name} has ${s.point} points`).join(', '))
-            .reprompt('Would you like to start a new game?')
+            .reprompt('Would you like to roll dice?')
             .getResponse();
     }
 };

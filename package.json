@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "create-deploy-package": "zip -r dist/deployPackage.zip . -x \"./**/*\"",
+    "build": "mkdir -p dist && rm -f dist/deployPackage.zip && zip -r dist/deployPackage.zip . -x *.git* *.idea* ./dist* .DS_Store",
     "update-lambda-function": "aws lambda update-function-code --function-name [arn] --zip-file fileb://dist/deployPackage.zip",
-    "deploy": "npm run create-deploy-package && npm run update-lambda-function"
+    "deploy": "npm run build && npm run update-lambda-function"
   },
   "author": "",
   "license": "ISC",

@@ -6,6 +6,11 @@ const highscores = require('./highscores');
  * session persistence, api calls, and more.
  * */
 const Alexa = require('ask-sdk-core');
+const AWS = require('aws-sdk');
+
+var db = new AWS.DynamoDB.DocumentClient();
+
+
 // i18n library dependency, we use it below in a localisation interceptor
 const i18n = require('i18next');
 // i18n strings for all supported locales
@@ -95,6 +100,17 @@ const YesIntentHandler = {
             && Alexa.getIntentName(handlerInput.requestEnvelope) === 'YesIntent';
     },
     handle(handlerInput) {
+        const sattr = handlerInput.attributesManager.getSessionAttributes();
+        const params = {
+            Item: {
+                name: "random",
+                point: sattr && ( sattr.score || 0 )
+            },
+            TableName: "vegas-dice-game"
+        };
+        db.put(params, (err, data) => {
+            console.error(err);
+        });
         return handlerInput.responseBuilder
             .speak(`You now are a vegas dice legend! GoodBye!!`)
             .withShouldEndSession(true)

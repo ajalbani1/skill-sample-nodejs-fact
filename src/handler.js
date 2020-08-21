@@ -60,6 +60,7 @@ const RollDiceIntentHandler = {
         if (roll === 1) {
             return handlerInput.responseBuilder
                 .speak(`You rolled a ${roll}. Game over.`)
+                .withShouldEndSession(true)
                 .reprompt(`You rolled a ${roll}. Game over.`)
                 .getResponse();
         } else {
@@ -92,7 +93,7 @@ const YesIntentHandler = {
     },
     handle(handlerInput) {
         return handlerInput.responseBuilder
-            .speak(`You now are a vegas dice legend! Goodbye!`)
+            .speak(`You now are a vegas dice legend! GoodBye!!`)
             .withShouldEndSession(true)
             // .reprompt(`Roll dice again?`)
             .getResponse();

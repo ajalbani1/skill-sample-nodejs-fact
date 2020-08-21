@@ -23,7 +23,7 @@ npm install
 First go to `package.json` and update the `update-lambda-function` script to use your lambda function. Then
 
 ```
-npm deploy
+npm run deploy
 ```
 
 # To create skill on Alexa Console

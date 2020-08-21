@@ -46,7 +46,7 @@ const HighScoresIntentHandler = {
     handle(handlerInput) {
         return handlerInput.responseBuilder
             .speak(highscores.map(s => `${s.name} has ${s.point} points`).join(', '))
-            .reprompt('Would you like to roll dice?')
+            // .reprompt('Would you like to roll dice?')
             .getResponse();
     }
 };
